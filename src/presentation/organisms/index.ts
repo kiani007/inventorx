@@ -1,0 +1,14 @@
+export { Header } from './Header/Header';
+export { Footer } from './Footer/Footer';
+export { LuxuryHeader } from './LuxuryHeader/LuxuryHeader';
+export { LuxuryFooter } from './LuxuryFooter/LuxuryFooter';
+export { HeroSection } from './HeroSection/HeroSection';
+export { CarouselSection } from './CarouselSection/CarouselSection';
+export { ProcessSection } from './ProcessSection/ProcessSection';
+export { StatsSection } from './StatsSection/StatsSection';
+export { BlogSection } from './BlogSection/BlogSection';
+export { ProjectsSection } from './ProjectsSection/ProjectsSection';
+export { TestimonialsSection } from './TestimonialsSection/TestimonialsSection';
+export { PartnersSection } from './PartnersSection/PartnersSection';
+export { CTASection } from './CTASection/CTASection';
+export { TrustedBySection } from './TrustedBySection/TrustedBySection';
