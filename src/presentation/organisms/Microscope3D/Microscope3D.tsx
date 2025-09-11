@@ -2,7 +2,7 @@
 
 import React, { useRef, Suspense, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Center, Html } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Center, Html, useTexture } from '@react-three/drei';
 // @ts-expect-error Three.js types
 import * as THREE from 'three';
 import { FBXLoader } from 'three-stdlib';
@@ -12,32 +12,62 @@ function MicroscopeModel() {
   const groupRef = useRef<THREE.Group>(null);
   // Load FBX from public folder
   const fbx = useLoader(FBXLoader, '/models/microscope/model.fbx');
+  
+  // Load all textures
+  const textures = useTexture({
+    map: '/models/microscope/textures/DefaultMaterial_C.png',
+    aoMap: '/models/microscope/textures/DefaultMaterial_AO.png',
+    metalnessMap: '/models/microscope/textures/DefaultMaterial_M.png',
+    normalMap: '/models/microscope/textures/DefaultMaterial_N.png',
+    roughnessMap: '/models/microscope/textures/DefaultMaterial_R.png',
+  });
 
-  // Traverse and normalize meshes to reduce GPU cost and avoid shadows issues
+  // Apply textures to the model
   useEffect(() => {
     if (!fbx) return;
+    
+    // Configure texture settings
+    Object.values(textures).forEach((texture) => {
+      if (texture) {
+        texture.flipY = false; // FBX models often need this
+        // @ts-expect-error Three.js texture encoding
+        texture.encoding = THREE.sRGBEncoding;
+      }
+    });
+    
     fbx.traverse((child: THREE.Object3D) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        mesh.castShadow = false;
-        mesh.receiveShadow = false;
-        // ensure material is a basic compatible side
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        
+        // Create a new material with all textures
         if (mesh.material) {
-          try {
-            if (Array.isArray(mesh.material)) {
-              mesh.material.forEach((m: THREE.Material) => { 
-                (m as THREE.MeshStandardMaterial).side = THREE.FrontSide; 
-              });
-            } else {
-              (mesh.material as THREE.MeshStandardMaterial).side = THREE.FrontSide;
-            }
-          } catch {
-            // ignore material normalization errors
+          const newMaterial = new THREE.MeshStandardMaterial({
+            map: textures.map,
+            aoMap: textures.aoMap,
+            aoMapIntensity: 1,
+            metalnessMap: textures.metalnessMap,
+            metalness: 0.5,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(1, 1),
+            roughnessMap: textures.roughnessMap,
+            roughness: 0.5,
+            side: THREE.DoubleSide,
+            envMapIntensity: 0.8,
+          });
+          
+          // Apply the new material
+          mesh.material = newMaterial;
+          
+          // Enable second UV channel for AO map if available
+          if (mesh.geometry.attributes.uv2) {
+            mesh.material.aoMap = textures.aoMap;
           }
         }
       }
     });
-  }, [fbx]);
+  }, [fbx, textures]);
 
   // Auto-rotate the microscope (no floating for stability)
   useFrame(() => {
@@ -64,7 +94,7 @@ export const Microscope3D: React.FC<{ className?: string }> = ({ className }) =>
       {contextLost ? (
         <div className="w-full h-full flex items-center justify-center bg-[#000000] text-white">WebGL context lost — reload the page or close other GPU-heavy tabs.</div>
       ) : (
-        <Canvas shadows={false} dpr={1} gl={{ antialias: true, alpha: true }} onCreated={({ gl }) => {
+        <Canvas shadows dpr={1} gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }} onCreated={({ gl }) => {
           const canvas = gl.domElement;
           const onLost = (e: Event) => {
             e.preventDefault();
@@ -81,12 +111,29 @@ export const Microscope3D: React.FC<{ className?: string }> = ({ className }) =>
           canvas.addEventListener('webglcontextrestored', onRestore, false);
         }}>
           <PerspectiveCamera makeDefault position={[3, 2, 3]} fov={50} />
-          {/* Lighting Setup (shadows disabled) */}
-          <ambientLight intensity={0.7} />
-          <directionalLight position={[10, 10, 5]} intensity={0.8} />
-          <directionalLight position={[-5, 5, -5]} intensity={0.4} color="#ffffff" />
-          <spotLight position={[0, 15, 0]} angle={0.3} penumbra={1} intensity={0.6} color="#D4AF37" />
-          <pointLight position={[0, -5, 0]} intensity={0.3} color="#D4AF37" />
+          {/* Enhanced Lighting Setup for textured model */}
+          <ambientLight intensity={0.4} />
+          <directionalLight 
+            position={[10, 10, 5]} 
+            intensity={1.2} 
+            castShadow
+            shadow-mapSize={[2048, 2048]}
+            shadow-camera-far={50}
+            shadow-camera-left={-10}
+            shadow-camera-right={10}
+            shadow-camera-top={10}
+            shadow-camera-bottom={-10}
+          />
+          <directionalLight position={[-5, 5, -5]} intensity={0.5} color="#ffffff" />
+          <spotLight 
+            position={[0, 15, 0]} 
+            angle={0.3} 
+            penumbra={1} 
+            intensity={0.8} 
+            color="#D4AF37"
+            castShadow
+          />
+          <pointLight position={[0, -5, 0]} intensity={0.4} color="#D4AF37" />
           {/* 3D Model (FBX) */}
           <Suspense fallback={<Html center><div className="text-[#D4AF37]">Loading model...</div></Html>}>
             <MicroscopeModel />
