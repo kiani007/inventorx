@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 const testimonials = [
   {
@@ -60,10 +61,12 @@ export const TestimonialsSection: React.FC = () => {
                 {testimonial.text}
               </p>
               <div className="flex items-center gap-[15px]">
-                <img 
+                <Image 
                   src={testimonial.author.avatar} 
                   alt={testimonial.author.name}
-                  className="w-[50px] h-[50px] rounded-full"
+                  width={50}
+                  height={50}
+                  className="rounded-full"
                 />
                 <div className="flex-1">
                   <div className="text-[16px] font-semibold text-[#1A1A1A] mb-[3px]">

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 const stats = [
   { img: '/icons/projects.svg', number: '3,847', label: 'Active Projects' },
@@ -95,7 +96,7 @@ export const StatsSection: React.FC = () => {
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-[#FFF7E6] to-[#F4E4C1] border border-[#F0DFA0]"
                        style={{ boxShadow: '8px 8px 20px rgba(16,24,40,0.16), -4px -4px 12px rgba(255,255,255,0.9), inset 0 2px 6px rgba(255,255,255,0.35)'}}>
-                    <img src={stat.img} alt={stat.label} className="w-8 h-8" />
+                    <Image src={stat.img} alt={stat.label} width={32} height={32} />
                   </div>
                 </div>
                 <div className="text-3xl lg:text-4xl font-extralight text-[#B8941F] mb-2">

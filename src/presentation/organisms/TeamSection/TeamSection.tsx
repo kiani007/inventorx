@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { cn } from '@/shared/utils/cn';
 import { Tag } from '@/presentation/molecules';
 
@@ -93,7 +94,7 @@ export const TeamSection: React.FC = () => {
 
         {/* Team Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((member) => (
             <div 
               key={member.id}
               className={cn(
@@ -111,11 +112,13 @@ export const TeamSection: React.FC = () => {
               {/* Avatar */}
               <div className="relative mb-6">
                 <div className="w-[140px] h-[140px] mx-auto rounded-full bg-gradient-to-br from-[#D4AF37] to-[#E5C558] p-1 shadow-[0_10px_30px_rgba(212,175,55,0.3)]">
-                  <div className="w-full h-full rounded-full bg-white p-1">
-                    <img 
+                  <div className="w-full h-full rounded-full bg-white p-1 relative">
+                    <Image 
                       src={member.avatar} 
                       alt={member.name}
-                      className="w-full h-full rounded-full object-cover"
+                      fill
+                      className="rounded-full object-cover"
+                      sizes="140px"
                     />
                   </div>
                 </div>

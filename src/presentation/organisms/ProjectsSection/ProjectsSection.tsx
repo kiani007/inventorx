@@ -64,10 +64,12 @@ export const ProjectsSection: React.FC = () => {
                  className="bg-white rounded-[30px] overflow-hidden transition-all duration-400 hover:-translate-y-[15px] hover:scale-[1.02] hover:shadow-[0_30px_80px_rgba(0,0,0,0.2)]"
                  style={{ boxShadow: 'var(--neo-shadow)' }}>
               <div className="h-[260px] relative overflow-hidden bg-gradient-to-br from-[#FFF8F0] to-white">
-                <img 
+                <Image 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-600 hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-600 hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <span className="absolute top-5 right-5 px-5 py-2 bg-[#D4AF37] text-white rounded-[25px] text-[11px] font-semibold uppercase tracking-[1px] shadow-[0_5px_15px_rgba(212,175,55,0.3)]">
                   {project.badge}
@@ -89,10 +91,12 @@ export const ProjectsSection: React.FC = () => {
                 
                 <div className="flex justify-between items-center pt-[25px] border-t border-[#FAFAFA]">
                   <div className="flex items-center gap-3">
-                    <img 
+                    <Image 
                       src={project.inventor.avatar} 
                       alt={project.inventor.name}
-                      className="w-9 h-9 rounded-full"
+                      width={36}
+                      height={36}
+                      className="rounded-full"
                     />
                     <div>
                       <div className="text-[14px] font-medium">{project.inventor.name}</div>

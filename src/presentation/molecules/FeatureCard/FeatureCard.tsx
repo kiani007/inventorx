@@ -7,7 +7,6 @@ interface FeatureCardProps {
   icon: string;
   title: string;
   description?: string;
-  gradient?: string;
   className?: string;
 }
 
@@ -15,7 +14,6 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   icon, 
   title, 
   description, 
-  gradient = 'from-[#D4AF37] to-[#E5C558]',
   className 
 }) => {
   return (

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { cn } from '@/shared/utils/cn';
-import { Button, Text } from '@/presentation/atoms';
+import { Text } from '@/presentation/atoms';
 import { SearchBar } from '@/presentation/molecules';
 
 export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {

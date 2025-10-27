@@ -19,10 +19,6 @@ export const HomePage: React.FC = () => {
   const getAllProductsUseCase = new GetAllProductsUseCase(productRepository);
   const searchProductsUseCase = new SearchProductsUseCase(productRepository);
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
   const loadProducts = async () => {
     try {
       setLoading(true);
@@ -35,6 +31,11 @@ export const HomePage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSearch = async (query: string) => {
     if (query.trim() === '') {
