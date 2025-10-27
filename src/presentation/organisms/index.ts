@@ -12,3 +12,7 @@ export { TestimonialsSection } from './TestimonialsSection/TestimonialsSection';
 export { PartnersSection } from './PartnersSection/PartnersSection';
 export { CTASection } from './CTASection/CTASection';
 export { TrustedBySection } from './TrustedBySection/TrustedBySection';
+export { MissionSection } from './MissionSection/MissionSection';
+export { VisionSection } from './VisionSection/VisionSection';
+export { TeamSection } from './TeamSection/TeamSection';
+export { PlatformConceptSection } from './PlatformConceptSection/PlatformConceptSection';

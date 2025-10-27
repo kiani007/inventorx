@@ -6,11 +6,11 @@ import { cn } from '@/shared/utils/cn';
 
 export const LuxuryHeader: React.FC = () => {
   const navLinks = [
-    { label: 'Homepage', href: '#' },
+    { label: 'Homepage', href: '/' },
     { label: 'Feasibility', href: '#' },
     { label: 'Auction', href: '#' },
     { label: 'Blog', href: '#' },
-    { label: 'About', href: '#' },
+    { label: 'About', href: '/about' },
     { label: 'Contact', href: '#' },
     { label: 'Investors', href: '#' },
   ];
@@ -51,7 +51,7 @@ export const LuxuryHeader: React.FC = () => {
           )}>
             {/* Logo */}
             <Link 
-              href="#" 
+              href="/" 
               className={cn(
                 "text-[20px]",
                 "font-light",
