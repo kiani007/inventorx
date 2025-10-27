@@ -11,7 +11,7 @@ export const LuxuryHeader: React.FC = () => {
     { label: 'Auction', href: '#' },
     { label: 'Blog', href: '#' },
     { label: 'About', href: '/about' },
-    { label: 'Contact', href: '#' },
+    { label: 'Contact', href: '/contact' },
     { label: 'Investors', href: '#' },
   ];
 

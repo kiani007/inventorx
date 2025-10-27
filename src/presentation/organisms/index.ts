@@ -16,3 +16,5 @@ export { MissionSection } from './MissionSection/MissionSection';
 export { VisionSection } from './VisionSection/VisionSection';
 export { TeamSection } from './TeamSection/TeamSection';
 export { PlatformConceptSection } from './PlatformConceptSection/PlatformConceptSection';
+export { ContactFormSection } from './ContactFormSection/ContactFormSection';
+export { SocialLinksSection } from './SocialLinksSection/SocialLinksSection';
