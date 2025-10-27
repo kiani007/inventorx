@@ -3,7 +3,6 @@
 import React, { useRef, Suspense, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Center, Html, useTexture } from '@react-three/drei';
-// @ts-expect-error Three.js types
 import * as THREE from 'three';
 import { FBXLoader } from 'three-stdlib';
 
@@ -30,8 +29,7 @@ function MicroscopeModel() {
     Object.values(textures).forEach((texture) => {
       if (texture) {
         texture.flipY = false; // FBX models often need this
-        // @ts-expect-error Three.js texture encoding
-        texture.encoding = THREE.sRGBEncoding;
+        texture.colorSpace = THREE.SRGBColorSpace; // Updated for Three.js r152+
       }
     });
     
@@ -61,7 +59,7 @@ function MicroscopeModel() {
           mesh.material = newMaterial;
           
           // Enable second UV channel for AO map if available
-          if (mesh.geometry.attributes.uv2) {
+          if (mesh.geometry.attributes.uv2 && mesh.material instanceof THREE.MeshStandardMaterial) {
             mesh.material.aoMap = textures.aoMap;
           }
         }

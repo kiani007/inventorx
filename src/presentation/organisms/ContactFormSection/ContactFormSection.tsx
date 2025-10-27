@@ -44,12 +44,12 @@ export const ContactFormSection: React.FC = () => {
             <h2 className={cn(
               "text-[56px] font-extralight mb-8 text-[#1A1A1A]"
             )}>
-              Let's
+              Let&apos;s
               <span className="font-normal bg-gradient-to-r from-[#D4AF37] to-[#E5C558] bg-clip-text text-transparent"> Connect</span>
             </h2>
             
             <p className="text-[20px] text-[#666666] max-w-[700px] mx-auto">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
             </p>
           </div>
 

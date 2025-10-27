@@ -36,7 +36,7 @@ const teamMembers = [
     id: 4,
     name: 'Alexandre Laurent',
     role: 'Head of Investor Relations',
-    bio: 'Connects the world\'s best innovators with elite investors and VCs',
+    bio: 'Connects the world&apos;s best innovators with elite investors and VCs',
     avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150',
     location: 'Lyon, France',
     expertise: ['Investment', 'Network', 'Strategy'],
@@ -162,7 +162,7 @@ export const TeamSection: React.FC = () => {
               Want to join our team?
             </h3>
             <p className="text-[16px] text-[#666666] mb-8">
-              We're always looking for passionate individuals to help shape the future of innovation
+              We&apos;re always looking for passionate individuals to help shape the future of innovation
             </p>
             <button className={cn(
               "px-12 py-4 bg-gradient-to-r from-[#D4AF37] to-[#E5C558] text-white rounded-full",
