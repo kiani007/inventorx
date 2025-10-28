@@ -30,8 +30,7 @@ function MicroscopeModel() {
     Object.values(textures).forEach((texture) => {
       if (texture) {
         texture.flipY = false; // FBX models often need this
-        // @ts-expect-error Three.js texture encoding
-        texture.encoding = THREE.sRGBEncoding;
+        texture.colorSpace = THREE.SRGBColorSpace;
       }
     });
     

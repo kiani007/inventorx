@@ -25,4 +25,23 @@ export const theme = {
     inner: 'inset 4px 4px 8px #d4d4d4, inset -4px -4px 8px #ffffff',
     goldGlow: '0 0 30px rgba(212, 175, 55, 0.3)',
   },
+  filters: {
+    countries: [
+      'United States',
+      'United Kingdom',
+      'Canada',
+      'United Arab Emirates',
+      'Japan',
+      'Spain',
+      'Singapore',
+      'Germany',
+      'France',
+      'Australia',
+    ],
+    proposalTypes: [
+      { value: 'PARTIAL', label: 'Partial Investment' },
+      { value: 'TOTAL_BUYOUT', label: 'Total Buyout' },
+      { value: 'ROYALTIES', label: 'Royalty Agreement' },
+    ],
+  },
 };

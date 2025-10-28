@@ -3,7 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 
-const footerLinks = {
+export interface LuxuryFooterProps {
+  sections?: {
+    title: string;
+    links: { label: string; href: string }[];
+  }[];
+}
+
+const defaultFooterLinks = {
   platform: [
     { label: 'How It Works', href: '#' },
     { label: 'For Inventors', href: '#' },
@@ -36,7 +43,23 @@ const footerLinks = {
   ],
 };
 
-export const LuxuryFooter: React.FC = () => {
+export const LuxuryFooter: React.FC<LuxuryFooterProps> = ({ sections }) => {
+  // Convert sections prop to footerLinks format or use default
+  const footerLinks = sections
+    ? sections.reduce((acc, section) => {
+        const key = section.title.toLowerCase().replace(/\s+/g, '');
+        acc[key] = section.links;
+        return acc;
+      }, {} as Record<string, { label: string; href: string }[]>)
+    : defaultFooterLinks;
+
+  const footerSections = sections || [
+    { title: 'Platform', links: defaultFooterLinks.platform },
+    { title: 'Features', links: defaultFooterLinks.features },
+    { title: 'Company', links: defaultFooterLinks.company },
+    { title: 'Resources', links: defaultFooterLinks.resources },
+    { title: 'Legal', links: defaultFooterLinks.legal },
+  ];
   return (
     <footer className="bg-white text-[#1A1A1A] pt-20 pb-[30px] relative overflow-hidden">
       <div className="before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-[1px]"
@@ -44,80 +67,22 @@ export const LuxuryFooter: React.FC = () => {
       
       <div className="max-w-[1400px] mx-auto px-10">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 mb-[60px]">
-          <div>
-            <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
-              Platform
-            </h4>
-            {footerLinks.platform.map((link) => (
-              <Link 
-                key={link.label}
-                href={link.href}
-                className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          
-          <div>
-            <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
-              Features
-            </h4>
-            {footerLinks.features.map((link) => (
-              <Link 
-                key={link.label}
-                href={link.href}
-                className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          
-          <div>
-            <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
-              Company
-            </h4>
-            {footerLinks.company.map((link) => (
-              <Link 
-                key={link.label}
-                href={link.href}
-                className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          
-          <div>
-            <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
-              Resources
-            </h4>
-            {footerLinks.resources.map((link) => (
-              <Link 
-                key={link.label}
-                href={link.href}
-                className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          
-          <div>
-            <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
-              Legal
-            </h4>
-            {footerLinks.legal.map((link) => (
-              <Link 
-                key={link.label}
-                href={link.href}
-                className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          {footerSections.map((section) => (
+            <div key={section.title}>
+              <h4 className="text-[14px] font-semibold mb-[25px] text-[#D4AF37] uppercase tracking-[1px]">
+                {section.title}
+              </h4>
+              {section.links.map((link) => (
+                <Link 
+                  key={link.label}
+                  href={link.href}
+                  className="block text-[#666666] no-underline mb-3 text-[14px] hover:text-[#D4AF37] transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
         
         <div className="text-center pt-10 border-t border-[#E5E5E5] text-[#666666] text-[14px]">
