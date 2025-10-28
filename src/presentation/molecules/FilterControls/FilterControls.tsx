@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/shared/utils/cn';
-import { Input, Button } from '@/presentation/atoms';
+import { Input, Button, Select } from '@/presentation/atoms';
 
 type FieldType = 'search' | 'select' | 'multi-select' | 'date' | 'date-range';
 
@@ -12,16 +12,17 @@ export interface FilterField {
   placeholder?: string;
   width?: string;
   options?: { value: string | number | boolean; label: string }[];
-  value?: any;
+  value?: string | string[] | number | boolean;
 }
 
 export interface FilterControlsProps {
   fields: FilterField[];
-  filterValues?: Record<string, any>;
-  onChange: (name: string, value: any) => void;
+  filterValues?: Record<string, string | string[] | number | boolean | undefined>;
+  onChange: (name: string, value: string | string[]) => void;
   onReset?: () => void;
   className?: string;
   compact?: boolean;
+  minWidth?: number; // px, ensures good UX while still fitting content
 }
 
 // Minimal generic inputs; selects can be swapped to shadcn Select later via our atoms
@@ -32,11 +33,12 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   onReset,
   className,
   compact = false,
+  minWidth = 220,
 }) => {
   return (
-    <div className={cn('flex flex-wrap items-start gap-3', className)}>
+    <div className={cn('flex flex-wrap items-center gap-3', className)}>
       {fields.map((field) => {
-        const width = field.width || 'min-w-[220px]';
+        const width = field.width || undefined;
         const commonProps = {
           className: cn(width, compact ? 'py-2' : 'py-3'),
         };
@@ -44,12 +46,17 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         switch (field.type) {
           case 'search':
             return (
-              <div key={field.name} className={cn('relative', width)}>
+              <div
+                key={field.name}
+                className={cn('relative inline-flex', width)}
+                style={{ minWidth }}
+              >
                 <Input
                   placeholder={field.placeholder || 'Search'}
                   value={(filterValues[field.name] ?? '') as string}
                   onChange={(e) => onChange(field.name, (e.target as HTMLInputElement).value)}
                   className={cn('pl-10', compact ? 'py-2' : 'py-3')}
+                  look="flat"
                 />
                 <svg
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]"
@@ -64,23 +71,18 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
             );
           case 'select':
             return (
-              <select
+              <Select
                 key={field.name}
+                name={field.name}
                 value={(filterValues[field.name] ?? '') as string}
-                onChange={(e) => onChange(field.name, e.target.value)}
-                className={cn(
-                  'rounded-xl bg-white text-[14px] text-[#1A1A1A] ring-1 ring-gray-200 focus:ring-2 focus:ring-[#D4AF37]/40 outline-none px-4',
-                  compact ? 'py-2' : 'py-3',
-                  width
-                )}
-              >
-                <option value="">{field.placeholder || 'All'}</option>
-                {(field.options || []).map((opt) => (
-                  <option key={String(opt.value)} value={String(opt.value)}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+                onChange={onChange}
+                placeholder={field.placeholder || 'All'}
+                options={(field.options || []) as { value: string | number | boolean; label: string }[]}
+                className={cn('w-auto', width)}
+                variant="neomorphic"
+                // ensure a reasonable minimum so layout stays elegant
+                // SelectTrigger uses className above; wrapper div handles min width
+              />
             );
           case 'multi-select':
             return (
@@ -99,6 +101,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
                   compact ? 'py-2' : 'py-3',
                   width
                 )}
+                style={{ minWidth }}
               >
                 {(field.options || []).map((opt) => (
                   <option key={String(opt.value)} value={String(opt.value)}>

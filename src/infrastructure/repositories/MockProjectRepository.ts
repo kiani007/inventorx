@@ -931,7 +931,8 @@ export class MockProjectRepository implements ProjectRepository {
         filtered = filtered.filter(p => p.category === filters.category);
       }
       if (filters.country) {
-        filtered = filtered.filter(p => p.country.toLowerCase().includes(filters.country.toLowerCase()));
+        const country = (filters.country as string).toLowerCase();
+        filtered = filtered.filter(p => p.country.toLowerCase().includes(country));
       }
       if (filters.isAuction !== undefined) {
         filtered = filtered.filter(p => p.isAuction === filters.isAuction);

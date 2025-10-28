@@ -4,8 +4,12 @@ import React from 'react';
 import Link from 'next/link';
 import { cn } from '@/shared/utils/cn';
 
-export const LuxuryHeader: React.FC = () => {
-  const navLinks = [
+export interface LuxuryHeaderProps {
+  navigation?: { label: string; href: string; }[];
+}
+
+export const LuxuryHeader: React.FC<LuxuryHeaderProps> = ({ navigation }) => {
+  const defaultNavLinks = [
     { label: 'Homepage', href: '/' },
     { label: 'Marketplace', href: '/marketplace' },
     { label: 'Auctions', href: '/marketplace?view=auctions' },
@@ -15,6 +19,7 @@ export const LuxuryHeader: React.FC = () => {
     { label: 'Investors', href: '#' },
   ];
 
+  const navLinks = navigation || defaultNavLinks;
   const languages = ['FR', 'EN', 'PT', 'ES', 'DE'];
 
   return (

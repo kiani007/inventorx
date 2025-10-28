@@ -6,3 +6,7 @@ export { ProposalSummary, type ProposalSummaryProps } from './ProposalSummary/Pr
 export { AccessBlockOverlay, type AccessBlockOverlayProps } from './AccessBlockOverlay/AccessBlockOverlay';
 export { FilterBar, type FilterBarProps, type FilterState } from './FilterBar/FilterBar';
 export { FilterControls, type FilterControlsProps, type FilterField, type FieldType } from './FilterControls/FilterControls';
+export { FeatureCard } from './FeatureCard/FeatureCard';
+export { StatsCard } from './StatsCard/StatsCard';
+export { BenefitItem } from './BenefitItem/BenefitItem';
+export { Tag } from './Tag/Tag';

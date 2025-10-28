@@ -7,3 +7,6 @@ export { CountdownTimer, type CountdownTimerProps } from './CountdownTimer/Count
 export { LikeButton, type LikeButtonProps } from './LikeButton/LikeButton';
 export { PriceDisplay, formatPrice, formatFullPrice, type PriceDisplayProps } from './PriceDisplay/PriceDisplay';
 export { StatusIndicator, type StatusIndicatorProps } from './StatusIndicator/StatusIndicator';
+export { Select, type SelectOption, type SelectProps } from './Select/Select';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs/Tabs';
+export { Textarea, type TextareaProps } from './Textarea/Textarea';

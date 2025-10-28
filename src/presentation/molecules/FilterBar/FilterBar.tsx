@@ -35,13 +35,13 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange, className, varian
     onFilterChange(filters);
   }, [filters, onFilterChange]);
 
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+  const handleFilterChange = (key: keyof FilterState, value: string) => {
     setFilters((prev) => {
       const newFilters = { ...prev };
       if (value === '' || value === 'all') {
         delete newFilters[key];
       } else {
-        newFilters[key] = value;
+        (newFilters as Record<string, string>)[key] = value;
       }
       return newFilters;
     });

@@ -6,7 +6,8 @@ export const metadata: Metadata = {
   description: 'View detailed information about this innovative project including technical specifications, investment opportunities, and inventor details.',
 };
 
-export default function ProjectDetail({ params }: { params: { id: string } }) {
-  return <ProjectDetailPage projectId={params.id} />;
+export default async function ProjectDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <ProjectDetailPage projectId={id} />;
 }
 
