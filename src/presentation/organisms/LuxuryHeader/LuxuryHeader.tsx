@@ -7,8 +7,8 @@ import { cn } from '@/shared/utils/cn';
 export const LuxuryHeader: React.FC = () => {
   const navLinks = [
     { label: 'Homepage', href: '/' },
-    { label: 'Feasibility', href: '#' },
-    { label: 'Auction', href: '#' },
+    { label: 'Marketplace', href: '/marketplace' },
+    { label: 'Auctions', href: '/marketplace?view=auctions' },
     { label: 'Blog', href: '#' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },

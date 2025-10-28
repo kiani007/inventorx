@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/shared/utils/cn';
-import { Header, Footer } from '@/presentation/organisms';
+import { LuxuryHeader as Header, LuxuryFooter as Footer } from '@/presentation/organisms';
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -23,7 +23,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
   const defaultNavigation = [
     { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
+    { label: 'Projects', href: '/marketplace' },
+    { label: 'Auctions', href: '/marketplace?view=auctions' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];
