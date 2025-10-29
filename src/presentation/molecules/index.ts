@@ -12,3 +12,5 @@ export { StatsCard } from './StatsCard/StatsCard';
 export { BenefitItem } from './BenefitItem/BenefitItem';
 export { Tag } from './Tag/Tag';
 export { Pagination, type PaginationProps } from './Pagination/Pagination';
+export { InvestorRow, type InvestorRowProps } from './InvestorRow/InvestorRow';
+export { InvestorPreviewPane, type InvestorPreviewPaneProps } from './InvestorPreviewPane/InvestorPreviewPane';

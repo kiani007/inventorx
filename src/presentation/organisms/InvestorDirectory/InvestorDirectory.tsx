@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Investor } from '@/core/domain/entities/Investor';
 import { MockInvestorRepository } from '@/infrastructure/repositories/MockInvestorRepository';
 import { GetInvestorsUseCase } from '@/core/usecases/investor/GetInvestors';
-import { InvestorCard, Pagination } from '@/presentation/molecules';
+import { InvestorCard, Pagination, InvestorRow, InvestorPreviewPane } from '@/presentation/molecules';
 import { Text, Tabs, TabsList, TabsTrigger, EmptyState } from '@/presentation/atoms';
 import { FilterControls } from '@/presentation/molecules';
 import { AsyncState } from '@/shared/types';
@@ -20,8 +20,10 @@ export const InvestorDirectory: React.FC<InvestorDirectoryProps> = ({ initialFil
   const pageSize = 12;
   const [filters, setFilters] = useState<Record<string, string | boolean | undefined>>({
     viewType: 'all',
+    layout: 'split',
     ...initialFilters,
   });
+  const [selectedInvestorId, setSelectedInvestorId] = useState<string | undefined>(undefined);
 
   const repo = useMemo(() => new MockInvestorRepository(), []);
   const getInvestors = useMemo(() => new GetInvestorsUseCase(repo), [repo]);
@@ -54,6 +56,9 @@ export const InvestorDirectory: React.FC<InvestorDirectoryProps> = ({ initialFil
         min,
       });
       setState({ loading: false, data: result });
+      if (!selectedInvestorId && result.items.length > 0) {
+        setSelectedInvestorId(result.items[0].id);
+      }
     };
     run();
   }, [filters, page, pageSize, getInvestors]);
@@ -147,12 +152,51 @@ export const InvestorDirectory: React.FC<InvestorDirectoryProps> = ({ initialFil
                   Showing <span className="font-semibold text-[#1A1A1A]">{state.data.items.length}</span> of{' '}
                   <span className="font-semibold text-[#1A1A1A]">{state.data.total}</span> investors
                 </Text>
+                <div className="hidden md:flex items-center gap-2">
+                  {['split','grid','list'].map((layout) => (
+                    <button
+                      key={layout}
+                      onClick={() => setFilters((p) => ({ ...p, layout }))}
+                      className={
+                        String(filters.layout) === layout
+                          ? 'px-3 py-1.5 rounded-full bg-[#D4AF37] text-white text-sm font-semibold'
+                          : 'px-3 py-1.5 rounded-full bg-white text-[#666666] text-sm border border-gray-200 hover:text-[#1A1A1A]'
+                      }
+                    >
+                      {layout.charAt(0).toUpperCase() + layout.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {state.data.items.map((inv) => (
-                  <InvestorCard key={inv.id} investor={inv} />
-                ))}
-              </div>
+
+              {String(filters.layout) === 'grid' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {state.data.items.map((inv) => (
+                    <InvestorCard key={inv.id} investor={inv} />
+                  ))}
+                </div>
+              )}
+
+              {String(filters.layout) === 'list' && (
+                <div className="space-y-3">
+                  {state.data.items.map((inv) => (
+                    <InvestorRow key={inv.id} investor={inv} onSelect={setSelectedInvestorId} selected={selectedInvestorId === inv.id} />
+                  ))}
+                </div>
+              )}
+
+              {String(filters.layout) === 'split' && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-7 space-y-3">
+                    {state.data.items.map((inv) => (
+                      <InvestorRow key={inv.id} investor={inv} onSelect={setSelectedInvestorId} selected={selectedInvestorId === inv.id} />
+                    ))}
+                  </div>
+                  <div className="lg:col-span-5 lg:sticky lg:top-24 self-start">
+                    <InvestorPreviewPane investor={state.data.items.find((i) => i.id === selectedInvestorId)} />
+                  </div>
+                </div>
+              )}
 
               {/* Pagination */}
               <Pagination
