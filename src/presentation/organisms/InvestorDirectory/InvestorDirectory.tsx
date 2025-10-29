@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Investor } from '@/core/domain/entities/Investor';
 import { MockInvestorRepository } from '@/infrastructure/repositories/MockInvestorRepository';
 import { GetInvestorsUseCase } from '@/core/usecases/investor/GetInvestors';
+import type { InvestorFilters } from '@/core/repositories/InvestorRepository';
 import { InvestorCard, Pagination, InvestorRow, InvestorPreviewPane } from '@/presentation/molecules';
 import { Text, Tabs, TabsList, TabsTrigger, EmptyState } from '@/presentation/atoms';
 import { FilterControls } from '@/presentation/molecules';
@@ -37,7 +38,7 @@ export const InvestorDirectory: React.FC<InvestorDirectoryProps> = ({ initialFil
       const country = filters.country ? String(filters.country) : undefined;
       const search = filters.search ? String(filters.search) : undefined;
       const min = filters.min ? Number(filters.min) : undefined;
-      const sort = (filters.sort || 'MOST_ACTIVE') as any;
+      const sort = (filters.sort || 'MOST_ACTIVE') as InvestorFilters['sort'];
       
       // Handle viewType
       let verified: boolean | undefined = undefined;
@@ -61,7 +62,7 @@ export const InvestorDirectory: React.FC<InvestorDirectoryProps> = ({ initialFil
       }
     };
     run();
-  }, [filters, page, pageSize, getInvestors]);
+  }, [filters, page, pageSize, getInvestors, selectedInvestorId]);
 
   const handleFilterChange = (name: string, value: string | string[]) => {
     const newValue = Array.isArray(value) ? value[0] : value;
