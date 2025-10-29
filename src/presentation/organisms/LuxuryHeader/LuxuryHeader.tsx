@@ -16,7 +16,7 @@ export const LuxuryHeader: React.FC<LuxuryHeaderProps> = ({ navigation }) => {
     { label: 'Blog', href: '#' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
-    { label: 'Investors', href: '#' },
+    { label: 'Investors', href: '/investors' },
   ];
 
   const navLinks = navigation || defaultNavLinks;

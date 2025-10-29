@@ -1,3 +1,4 @@
+export { InvestorCard, type InvestorCardProps } from './InvestorCard/InvestorCard';
 export { Card, type CardProps } from './Card/Card';
 export { SearchBar } from './SearchBar/SearchBar';
 export { ProjectCard, type ProjectCardProps } from './ProjectCard/ProjectCard';
@@ -10,3 +11,4 @@ export { FeatureCard } from './FeatureCard/FeatureCard';
 export { StatsCard } from './StatsCard/StatsCard';
 export { BenefitItem } from './BenefitItem/BenefitItem';
 export { Tag } from './Tag/Tag';
+export { Pagination, type PaginationProps } from './Pagination/Pagination';

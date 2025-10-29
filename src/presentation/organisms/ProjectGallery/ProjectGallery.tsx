@@ -1,11 +1,11 @@
 '/* stylelint-disable */'
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { cn } from '@/shared/utils/cn';
 import { Project } from '@/core/domain/entities/Project';
-import { ProjectCard } from '@/presentation/molecules';
-import { Text } from '@/presentation/atoms';
+import { ProjectCard, Pagination } from '@/presentation/molecules';
+import { Text, EmptyState } from '@/presentation/atoms';
 
 export interface ProjectGalleryProps {
   projects: Project[];
@@ -52,37 +52,11 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   if (projects.length === 0) {
     return (
       <div className={cn('py-20', className)}>
-        <div
-          className="flex flex-col items-center justify-center gap-6 p-12 rounded-[24px] bg-linear-to-br from-[#FFF8F0] to-white"
-          style={{ boxShadow: 'var(--neo-shadow)' }}
-        >
-          <div
-            className="w-24 h-24 rounded-full bg-linear-to-br from-[#FFF8F0] to-white flex items-center justify-center"
-            style={{ boxShadow: 'var(--inner-shadow)' }}
-          >
-            <svg
-              className="w-12 h-12 text-[#D4AF37]/50"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <div className="text-center">
-            <Text variant="h3" className="mb-2">
-              No Projects Found
-            </Text>
-            <Text variant="body" color="secondary">
-              Try adjusting your filters or search terms
-            </Text>
-          </div>
-        </div>
+        <EmptyState
+          title="No Projects Found"
+          description="Try adjusting your filters or search terms"
+          icon="no-results"
+        />
       </div>
     );
   }
@@ -106,34 +80,17 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
         ))}
       </div>
 
-      {/* Load More Button */}
+      {/* Load More Pagination */}
       {hasMore && (
-        <div className="flex justify-center pt-8">
-          <button
-            onClick={handleLoadMore}
-            disabled={loadingMore}
-            className={cn(
-              'px-12 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300',
-              'bg-linear-to-r from-[#D4AF37] to-[#E5C558] text-white',
-              'shadow-[0_20px_40px_-10px_rgba(212,175,55,0.4)]',
-              'hover:shadow-[0_25px_50px_-10px_rgba(212,175,55,0.5)] hover:-translate-y-1',
-              'disabled:opacity-50 disabled:cursor-not-allowed'
-            )}
-          >
-            {loadingMore ? (
-              <span className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              `Load More Projects`
-            )}
-          </button>
-        </div>
+        <Pagination
+          type="infinite"
+          hasMore={hasMore}
+          loading={loadingMore}
+          onLoadMore={handleLoadMore}
+        />
       )}
     </div>
   );
 };
 
 export { ProjectGallery };
-

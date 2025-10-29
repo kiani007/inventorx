@@ -1,3 +1,5 @@
+export { InvestorDirectory } from './InvestorDirectory/InvestorDirectory';
+export { InvestorDirectoryHero } from './InvestorDirectoryHero/InvestorDirectoryHero';
 export { HeroSection } from './HeroSection/HeroSection';
 export { StatsSection } from './StatsSection/StatsSection';
 export { Header } from './Header/Header';
