@@ -1,3 +1,4 @@
+'/* stylelint-disable */'
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -11,6 +12,7 @@ export interface ProjectGalleryProps {
   loading?: boolean;
   onLike?: (projectId: string, liked: boolean) => void;
   className?: string;
+  showSummary?: boolean; // controls the "Showing X of Y" header
 }
 
 const ProjectGallery: React.FC<ProjectGalleryProps> = ({
@@ -18,6 +20,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   loading = false,
   onLike,
   className,
+  showSummary = true,
 }) => {
   const [displayCount, setDisplayCount] = useState(12);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -50,11 +53,11 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
     return (
       <div className={cn('py-20', className)}>
         <div
-          className="flex flex-col items-center justify-center gap-6 p-12 rounded-[24px] bg-gradient-to-br from-[#FFF8F0] to-white"
+          className="flex flex-col items-center justify-center gap-6 p-12 rounded-[24px] bg-linear-to-br from-[#FFF8F0] to-white"
           style={{ boxShadow: 'var(--neo-shadow)' }}
         >
           <div
-            className="w-24 h-24 rounded-full bg-gradient-to-br from-[#FFF8F0] to-white flex items-center justify-center"
+            className="w-24 h-24 rounded-full bg-linear-to-br from-[#FFF8F0] to-white flex items-center justify-center"
             style={{ boxShadow: 'var(--inner-shadow)' }}
           >
             <svg
@@ -87,12 +90,14 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   return (
     <div className={cn('space-y-8', className)}>
       {/* Results Count */}
-      <div className="flex items-center justify-between">
-        <Text variant="body" color="secondary">
-          Showing <span className="font-semibold text-[#1A1A1A]">{displayedProjects.length}</span> of{' '}
-          <span className="font-semibold text-[#1A1A1A]">{projects.length}</span> projects
-        </Text>
-      </div>
+      {showSummary && (
+        <div className="flex items-center justify-between">
+          <Text variant="body" color="secondary">
+            Showing <span className="font-semibold text-[#1A1A1A]">{displayedProjects.length}</span> of{' '}
+            <span className="font-semibold text-[#1A1A1A]">{projects.length}</span> projects
+          </Text>
+        </div>
+      )}
 
       {/* Project Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -109,7 +114,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
             disabled={loadingMore}
             className={cn(
               'px-12 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300',
-              'bg-gradient-to-r from-[#D4AF37] to-[#E5C558] text-white',
+              'bg-linear-to-r from-[#D4AF37] to-[#E5C558] text-white',
               'shadow-[0_20px_40px_-10px_rgba(212,175,55,0.4)]',
               'hover:shadow-[0_25px_50px_-10px_rgba(212,175,55,0.5)] hover:-translate-y-1',
               'disabled:opacity-50 disabled:cursor-not-allowed'
