@@ -119,19 +119,38 @@ export const LuxuryHeader: React.FC<LuxuryHeaderProps> = ({ navigation }) => {
                   </option>
                 ))}
               </select>
-              <button className={cn(
-                "px-5",
-                "py-1.5",
-                "bg-[#D4AF37]",
-                "text-white",
-                "rounded-full",
-                "text-[13px]",
-                "font-medium",
-                "hover:bg-[#B8941F]",
-                "transition-colors"
-              )}>
+              <Link
+                href="/signup"
+                className={cn(
+                  "px-5",
+                  "py-1.5",
+                  "text-[#D4AF37]",
+                  "text-[13px]",
+                  "font-medium",
+                  "hover:text-[#B8941F]",
+                  "transition-colors",
+                  "no-underline"
+                )}
+              >
+                SIGN UP
+              </Link>
+              <Link
+                href="/login"
+                className={cn(
+                  "px-5",
+                  "py-1.5",
+                  "bg-[#D4AF37]",
+                  "text-white",
+                  "rounded-full",
+                  "text-[13px]",
+                  "font-medium",
+                  "hover:bg-[#B8941F]",
+                  "transition-colors",
+                  "no-underline"
+                )}
+              >
                 LOGIN
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -65,6 +65,8 @@ export const metadata: Metadata = {
   description: "A Next.js application built with clean architecture and atomic design pattern",
 };
 
+import { ToastProvider } from '@/providers/ToastProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -76,6 +78,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
       >
         {children}
+        <ToastProvider />
       </body>
     </html>
   );
