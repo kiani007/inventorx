@@ -52,12 +52,12 @@ export async function GET(request: Request) {
       .single();
 
     const forwardedHost = request.headers.get('x-forwarded-host');
-    const isLocalEnv = process.env.NODE_ENV === 'development';
+    const isLocalhost = origin.includes('localhost') || origin.includes('127.0.0.1');
     
     // Determine redirect URL
     let redirectUrl: string;
-    if (isLocalEnv) {
-      // Force http:// for localhost in development
+    if (isLocalhost) {
+      // Force http:// for localhost (works in both dev and prod builds)
       redirectUrl = origin.replace('https://', 'http://');
     } else if (forwardedHost) {
       redirectUrl = `https://${forwardedHost}`;
