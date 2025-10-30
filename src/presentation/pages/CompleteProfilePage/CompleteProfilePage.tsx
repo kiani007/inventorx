@@ -31,7 +31,12 @@ export const CompleteProfilePage: React.FC = () => {
   const completeProfileUseCase = new CompleteProfileAfterVerification(authRepo);
 
   useEffect(() => {
-    completeProfile();
+    // Small delay to ensure cookies are synced after redirect
+    const timer = setTimeout(() => {
+      completeProfile();
+    }, 100);
+    
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

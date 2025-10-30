@@ -38,16 +38,34 @@ export class SupabaseAuthRepository implements AuthRepository {
     try {
       console.log('📝 Completing profile creation for verified user:', userId);
 
-      // Verify we have an active session
-      const { data: { session } } = await this.supabase.auth.getSession();
+      // Refresh session to ensure we have the latest session from cookies
+      console.log('🔄 Refreshing session...');
+      const { data: { session }, error: sessionError } = await this.supabase.auth.refreshSession();
       
-      if (!session || session.user.id !== userId) {
-        console.error('No valid session for profile completion');
+      if (sessionError) {
+        console.error('Session refresh error:', sessionError);
+      }
+      
+      if (!session) {
+        console.error('No valid session after refresh');
         return {
           success: false,
           error: {
             code: AuthErrorCode.UNKNOWN_ERROR,
             message: 'Authentication session expired. Please sign in again.',
+          },
+        };
+      }
+      
+      console.log('✅ Session refreshed, user:', session.user.id);
+      
+      if (session.user.id !== userId) {
+        console.error('Session user ID mismatch. Expected:', userId, 'Got:', session.user.id);
+        return {
+          success: false,
+          error: {
+            code: AuthErrorCode.UNKNOWN_ERROR,
+            message: 'Session user mismatch. Please sign in again.',
           },
         };
       }
