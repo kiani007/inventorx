@@ -17,6 +17,8 @@ import {
 } from '@/presentation/atoms';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { oauthProfileSetupInitialValues } from '@/shared/forms/initialValues';
+import { oauthProfileValidation } from '@/shared/validation/form.signup';
 
 /**
  * OAuth Profile Setup Page
@@ -46,15 +48,7 @@ export const OAuthProfileSetupPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { control, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
-    defaultValues: {
-      role: null,
-      phoneNumber: '',
-      country: '',
-      city: '',
-      shortDescription: '',
-      companyNames: [],
-      companyWebsites: [],
-    },
+    defaultValues: oauthProfileSetupInitialValues as unknown as FormData,
   });
 
   const watchedRole = watch('role');
@@ -237,7 +231,7 @@ export const OAuthProfileSetupPage: React.FC = () => {
               <Controller
                 name="phoneNumber"
                 control={control}
-                rules={{ required: 'Phone number is required' }}
+                rules={oauthProfileValidation.phoneNumber}
                 render={({ field }) => (
                   <PhoneInput
                     {...field}
@@ -259,7 +253,7 @@ export const OAuthProfileSetupPage: React.FC = () => {
               <Controller
                 name="country"
                 control={control}
-                rules={{ required: 'Country is required' }}
+                rules={oauthProfileValidation.country}
                 render={({ field }) => (
                   <CountrySelect
                     {...field}

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { retrievePendingSignup, clearPendingSignup } from '@/lib/auth/pending-signup-storage';
+import { retrievePendingSignup, clearPendingSignup } from '@/shared/services/pending-signup-storage';
 import { SupabaseAuthRepository } from '@/infrastructure/repositories/SupabaseAuthRepository';
 import { CompleteProfileAfterVerification } from '@/core/usecases/auth';
 import { createClient } from '@/lib/supabase/client';

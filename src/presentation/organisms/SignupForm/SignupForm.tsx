@@ -5,18 +5,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { cn } from '@/shared/utils/cn';
 import { UserRole, SignupFormData } from '@/core/domain/entities/AuthUser';
 import { RoleSelector } from '@/presentation/organisms/RoleSelector/RoleSelector';
+import { signupInitialValues } from '@/shared/forms/initialValues';
 import { SocialLoginSection } from '@/presentation/organisms/SocialLoginSection/SocialLoginSection';
 import { FormFieldGroup } from '@/presentation/molecules/FormFieldGroup/FormFieldGroup';
-import {
-  Input,
-  Button,
-  CountrySelect,
-  PhoneInput,
-  PasswordInput,
-  FileUpload,
-  URLInput,
-  Textarea,
-} from '@/presentation/atoms';
+import { Input, Button, CountrySelect, PhoneInput, PasswordInput, FileUpload, URLInput, Textarea } from '@/presentation/atoms';
+import { signupValidation } from '@/shared/validation/form.signup';
 import { Loader2, Plus, X } from 'lucide-react';
 
 export interface SignupFormProps {
@@ -58,20 +51,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
     formState: { errors },
     setValue,
   } = useForm<FormData>({
-    defaultValues: {
-      role: null,
-      fullName: '',
-      email: '',
-      phoneNumber: '',
-      password: '',
-      confirmPassword: '',
-      country: '',
-      city: '',
-      shortDescription: '',
-      profilePhoto: null,
-      companyNames: [],
-      companyWebsites: [],
-    },
+    defaultValues: signupInitialValues as unknown as FormData,
   });
 
   const password = watch('password');
@@ -156,10 +136,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
             {/* Basic Information */}
             <FormFieldGroup title="Basic Information" description="Tell us about yourself">
               <Input
-                {...register('fullName', {
-                  required: 'Full name is required',
-                  minLength: { value: 2, message: 'Name must be at least 2 characters' },
-                })}
+                {...register('fullName', signupValidation.fullName)}
                 label="Full Name"
                 placeholder="John Doe"
                 error={!!errors.fullName}
@@ -168,13 +145,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
               />
 
               <Input
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address',
-                  },
-                })}
+                {...register('email', signupValidation.email)}
                 label="Email"
                 type="email"
                 placeholder="john@example.com"
@@ -186,10 +157,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
               <Controller
                 name="phoneNumber"
                 control={control}
-                rules={{
-                  required: 'Phone number is required',
-                  minLength: { value: 5, message: 'Phone number is too short' },
-                }}
+                rules={signupValidation.phoneNumber}
                 render={({ field }) => (
                   <PhoneInput
                     value={field.value}
@@ -204,14 +172,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
             {/* Security */}
             <FormFieldGroup title="Security" description="Create a secure password">
               <PasswordInput
-                {...register('password', {
-                  required: 'Password is required',
-                  minLength: { value: 8, message: 'Password must be at least 8 characters' },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                    message: 'Password must contain uppercase, lowercase, and number',
-                  },
-                })}
+                {...register('password', signupValidation.password)}
                 label="Password"
                 placeholder="Create a strong password"
                 showStrength

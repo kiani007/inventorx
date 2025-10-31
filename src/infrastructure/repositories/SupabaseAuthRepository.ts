@@ -14,7 +14,9 @@ import {
   InventorProfile,
 } from '@/core/domain/entities/AuthUser';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { storePendingSignup } from '@/lib/auth/pending-signup-storage';
+import { storePendingSignup } from '@/shared/services/pending-signup-storage';
+import type { ProfileInsertDTO, ProfileUpdateDTO } from '@/shared/types';
+import { mapDatabaseProfileToUserProfile, mapUserProfileToUpdateDTO, createProfileInsertFromSignup } from '@/shared/mappers/profile';
 
 /**
  * Supabase Implementation of AuthRepository
@@ -203,10 +205,7 @@ export class SupabaseAuthRepository implements AuthRepository {
           };
         } catch (storageError) {
           console.error('Failed to store pending signup data:', storageError);
-          // If storage fails, we can't complete the profile later
-          // Clean up the auth user
-          await this.supabase.auth.admin.deleteUser(authData.user.id);
-          
+          // Do not attempt admin deletion from client; surface error to user
           return {
             success: false,
             error: {
@@ -607,31 +606,16 @@ export class SupabaseAuthRepository implements AuthRepository {
     profilePhotoUrl?: string,
     companyLogoUrls?: string[]
   ): Promise<UserProfile | null> {
-    const profileData: Record<string, unknown> = {
-      id: userId,
-      role: data.role,
-      full_name: data.fullName,
-      phone_number: data.phoneNumber,
-      phone_verified: false,
-      country: data.country,
-      city: data.city || null,
-      short_description: data.shortDescription || null,
-      email_verified: false,
-      profile_completed: data.role === UserRole.INVESTOR ? !!profilePhotoUrl : true,
-      is_active: true,
-    };
-
-    // Add investor-specific fields
-    if (data.role === UserRole.INVESTOR) {
-      profileData.profile_photo_url = profilePhotoUrl || null;
-      profileData.company_names = data.companyNames || null;
-      profileData.company_logo_urls = companyLogoUrls || null;
-      profileData.company_websites = data.companyWebsites || null;
-    }
+    const profileData: ProfileInsertDTO = createProfileInsertFromSignup(
+      userId,
+      data,
+      profilePhotoUrl,
+      companyLogoUrls
+    );
 
     const { data: profile, error } = await this.supabase
       .from('profiles')
-      .insert(profileData)
+      .insert(profileData as never)
       .select()
       .single();
 
@@ -647,75 +631,21 @@ export class SupabaseAuthRepository implements AuthRepository {
       return null;
     }
 
-    return this.mapDatabaseProfileToUserProfile(profile);
+    return mapDatabaseProfileToUserProfile(profile);
   }
 
   /**
    * Map database profile to domain UserProfile
    */
   private mapDatabaseProfileToUserProfile(dbProfile: Record<string, unknown>): UserProfile {
-    const baseProfile = {
-      id: dbProfile.id as string,
-      role: dbProfile.role as UserRole,
-      fullName: dbProfile.full_name as string,
-      email: (dbProfile.email as string) || '',
-      phoneNumber: dbProfile.phone_number as string,
-      phoneVerified: dbProfile.phone_verified as boolean,
-      country: dbProfile.country as string,
-      city: dbProfile.city as string | undefined,
-      shortDescription: dbProfile.short_description as string | undefined,
-      emailVerified: dbProfile.email_verified as boolean,
-      profileCompleted: dbProfile.profile_completed as boolean,
-      isActive: dbProfile.is_active as boolean,
-      createdAt: new Date(dbProfile.created_at as string),
-      updatedAt: new Date(dbProfile.updated_at as string),
-    };
-
-    if (dbProfile.role === UserRole.INVESTOR) {
-      return {
-        ...baseProfile,
-        role: UserRole.INVESTOR,
-        profilePhotoUrl: dbProfile.profile_photo_url as string | undefined,
-        companyNames: dbProfile.company_names as string[] | undefined,
-        companyLogoUrls: dbProfile.company_logo_urls as string[] | undefined,
-        companyWebsites: dbProfile.company_websites as string[] | undefined,
-      } as InvestorProfile;
-    }
-
-    return baseProfile as InventorProfile;
+    return mapDatabaseProfileToUserProfile(dbProfile);
   }
 
   /**
    * Map domain UserProfile to database format
    */
-  private mapUserProfileToDatabase(profile: Partial<UserProfile>): Record<string, unknown> {
-    const dbProfile: Record<string, unknown> = {};
-
-    if (profile.fullName) dbProfile.full_name = profile.fullName;
-    if (profile.phoneNumber) dbProfile.phone_number = profile.phoneNumber;
-    if (profile.phoneVerified !== undefined) dbProfile.phone_verified = profile.phoneVerified;
-    if (profile.country) dbProfile.country = profile.country;
-    if (profile.city) dbProfile.city = profile.city;
-    if (profile.shortDescription !== undefined) dbProfile.short_description = profile.shortDescription;
-    if (profile.emailVerified !== undefined) dbProfile.email_verified = profile.emailVerified;
-    if (profile.profileCompleted !== undefined) dbProfile.profile_completed = profile.profileCompleted;
-    if (profile.isActive !== undefined) dbProfile.is_active = profile.isActive;
-
-    // Investor-specific fields
-    if ('profilePhotoUrl' in profile) {
-      dbProfile.profile_photo_url = (profile as InvestorProfile).profilePhotoUrl;
-    }
-    if ('companyNames' in profile) {
-      dbProfile.company_names = (profile as InvestorProfile).companyNames;
-    }
-    if ('companyLogoUrls' in profile) {
-      dbProfile.company_logo_urls = (profile as InvestorProfile).companyLogoUrls;
-    }
-    if ('companyWebsites' in profile) {
-      dbProfile.company_websites = (profile as InvestorProfile).companyWebsites;
-    }
-
-    return dbProfile;
+  private mapUserProfileToDatabase(profile: Partial<UserProfile>): ProfileUpdateDTO {
+    return mapUserProfileToUpdateDTO(profile);
   }
 
   /**
