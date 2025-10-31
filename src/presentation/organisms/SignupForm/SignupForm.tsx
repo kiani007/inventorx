@@ -377,7 +377,6 @@ export const SignupForm: React.FC<SignupFormProps> = ({
           {/* Social Login */}
           <SocialLoginSection
             onGoogleLogin={() => onSocialLogin('google')}
-            onLinkedInLogin={() => onSocialLogin('linkedin')}
             disabled={isLoading}
           />
         </form>

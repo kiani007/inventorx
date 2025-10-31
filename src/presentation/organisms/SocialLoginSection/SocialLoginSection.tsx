@@ -6,14 +6,12 @@ import { cn } from '@/shared/utils/cn';
 
 export interface SocialLoginSectionProps {
   onGoogleLogin: () => void;
-  onLinkedInLogin: () => void;
   disabled?: boolean;
   className?: string;
 }
 
 export const SocialLoginSection: React.FC<SocialLoginSectionProps> = ({
   onGoogleLogin,
-  onLinkedInLogin,
   disabled,
   className,
 }) => {
@@ -32,15 +30,10 @@ export const SocialLoginSection: React.FC<SocialLoginSectionProps> = ({
       </div>
 
       {/* Social Login Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <SocialLoginButton
           provider="google"
           onClick={onGoogleLogin}
-          disabled={disabled}
-        />
-        <SocialLoginButton
-          provider="linkedin"
-          onClick={onLinkedInLogin}
           disabled={disabled}
         />
       </div>
