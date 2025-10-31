@@ -39,9 +39,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
     <div className={cn('flex flex-wrap items-center gap-3', className)}>
       {fields.map((field) => {
         const width = field.width || undefined;
-        const commonProps = {
-          className: cn(width, compact ? 'py-2' : 'py-3'),
-        };
+        // reserved for future props composition
 
         switch (field.type) {
           case 'search':
