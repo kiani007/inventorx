@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { Investor } from '@/core/domain/entities/Investor';
 import { Text, Badge, Button, Avatar } from '@/presentation/atoms';
 import { VerifiedBadge, CountryFlag } from '@/presentation/atoms';

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MainLayout } from '@/presentation/templates';
 import { MarketplaceHero, ProjectGallery } from '@/presentation/organisms';
-import { FilterBar, FilterControls, type FilterState } from '@/presentation/molecules';
+import { FilterControls, type FilterState } from '@/presentation/molecules';
 import { Tabs, TabsList, TabsTrigger } from '@/presentation/atoms';
 import { theme } from '@/shared/constants/theme';
 import { MockProjectRepository } from '@/infrastructure/repositories/MockProjectRepository';
@@ -12,7 +12,6 @@ import { Project } from '@/core/domain/entities/Project';
 import { ProjectFilters } from '@/core/repositories/ProjectRepository';
 
 export const MarketplacePage: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterState>({});
@@ -42,7 +41,6 @@ export const MarketplacePage: React.FC = () => {
       }
 
       const allProjects = await getAllProjectsUseCase.execute(projectFilters);
-      setProjects(allProjects);
       setFilteredProjects(allProjects);
     } catch (error) {
       console.error('Error loading projects:', error);

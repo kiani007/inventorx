@@ -1,7 +1,7 @@
 import { ProjectRepository, ProjectFilters } from '@/core/repositories/ProjectRepository';
-import { Project, ProjectStatus, ProjectCategory, PROJECT_CATEGORIES } from '@/core/domain/entities/Project';
+import { Project, ProjectStatus, ProjectCategory } from '@/core/domain/entities/Project';
 import { Inventor } from '@/core/domain/entities/Inventor';
-import { Proposal, ProposalType } from '@/core/domain/entities/Proposal';
+import { ProposalType } from '@/core/domain/entities/Proposal';
 
 // Mock Inventors
 const mockInventors: Inventor[] = [
