@@ -1,9 +1,11 @@
 /* stylelint-disable */
 // Export all atoms
+export { Alert } from './Alert/Alert';
 export { Avatar } from './Avatar/Avatar';
 export { BackLinkButton } from './BackLinkButton/BackLinkButton';
 export { Badge } from './Badge/Badge';
 export { Button } from './Button/Button';
+export { Checkbox } from './Checkbox/Checkbox';
 export { CountdownTimer } from './CountdownTimer/CountdownTimer';
 export { CountryFlag } from './CountryFlag/CountryFlag';
 export { EmptyState } from './EmptyState/EmptyState';

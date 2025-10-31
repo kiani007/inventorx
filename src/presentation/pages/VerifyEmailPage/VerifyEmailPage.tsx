@@ -5,9 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { EmailVerification } from '@/presentation/organisms/EmailVerification/EmailVerification';
 import { SupabaseAuthRepository } from '@/infrastructure/repositories/SupabaseAuthRepository';
 import { VerifyEmail } from '@/core/usecases/auth';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { BackLinkButton, PageLoader } from '@/presentation/atoms';
 
 function VerifyEmailContent() {
   const router = useRouter();
@@ -92,13 +91,7 @@ function VerifyEmailContent() {
       <div className="relative z-10">
         {/* Back Button */}
         <div className="max-w-[1200px] mx-auto mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center space-x-2 text-[14px] text-[#666666] hover:text-[#D4AF37] transition-colors"
-          >
-            <ArrowLeft size={16} />
-            <span>Back to Home</span>
-          </Link>
+          <BackLinkButton href="/" label="Back to Home" className="text-[14px]" />
         </div>
 
         {/* Verification Component */}
@@ -115,14 +108,7 @@ function VerifyEmailContent() {
 
 export const VerifyEmailPage: React.FC = () => {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-[#FAFAFA] via-[#F0F0F0] to-[#FAFAFA] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-4 border-[#D4AF37] border-t-transparent rounded-full mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<PageLoader message="Loading verification..." />}>
       <VerifyEmailContent />
     </Suspense>
   );

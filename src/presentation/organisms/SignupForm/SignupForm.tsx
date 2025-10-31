@@ -2,15 +2,14 @@
 
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { cn } from '@/shared/utils/cn';
 import { UserRole, SignupFormData } from '@/core/domain/entities/AuthUser';
 import { RoleSelector } from '@/presentation/organisms/RoleSelector/RoleSelector';
 import { signupInitialValues } from '@/shared/forms/initialValues';
 import { SocialLoginSection } from '@/presentation/organisms/SocialLoginSection/SocialLoginSection';
 import { FormFieldGroup } from '@/presentation/molecules/FormFieldGroup/FormFieldGroup';
-import { Input, Button, CountrySelect, PhoneInput, PasswordInput, FileUpload, URLInput, Textarea } from '@/presentation/atoms';
+import { Input, Button, CountrySelect, PhoneInput, PasswordInput, FileUpload, URLInput, Textarea, ButtonLoader } from '@/presentation/atoms';
 import { signupValidation } from '@/shared/validation/form.signup';
-import { Loader2, Plus, X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 export interface SignupFormProps {
   onSubmit: (data: SignupFormData) => Promise<void>;
@@ -353,7 +352,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
               >
                 {isLoading ? (
                   <>
-                    <Loader2 size={20} className="mr-2 animate-spin" />
+                    <ButtonLoader size="lg" className="mr-2" />
                     Creating Account...
                   </>
                 ) : (

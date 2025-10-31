@@ -31,4 +31,5 @@ export { VisionSection } from './VisionSection/VisionSection';
 export { RoleSelector } from './RoleSelector/RoleSelector';
 export { SocialLoginSection } from './SocialLoginSection/SocialLoginSection';
 export { SignupForm } from './SignupForm/SignupForm';
+export { LoginForm } from './LoginForm/LoginForm';
 export { EmailVerification } from './EmailVerification/EmailVerification';

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { cn } from '@/shared/utils/cn';
 import { Project } from '@/core/domain/entities/Project';
 import { ProjectCard, Pagination } from '@/presentation/molecules';
-import { Text, EmptyState } from '@/presentation/atoms';
+import { Text, EmptyState, SectionLoader } from '@/presentation/atoms';
 
 export interface ProjectGalleryProps {
   projects: Project[];
@@ -37,16 +37,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   const hasMore = displayCount < projects.length;
 
   if (loading) {
-    return (
-      <div className={cn('py-20', className)}>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-16 h-16 border-4 border-[#D4AF37]/20 border-t-[#D4AF37] rounded-full animate-spin" />
-          <Text variant="body" color="secondary">
-            Loading projects...
-          </Text>
-        </div>
-      </div>
-    );
+    return <SectionLoader message="Loading projects..." height={400} className={className} />;
   }
 
   if (projects.length === 0) {

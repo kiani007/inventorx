@@ -10,8 +10,6 @@ import {
   UserProfile,
   AuthSession,
   UserRole,
-  InvestorProfile,
-  InventorProfile,
 } from '@/core/domain/entities/AuthUser';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { storePendingSignup } from '@/shared/services/pending-signup-storage';

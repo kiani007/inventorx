@@ -1,9 +1,7 @@
 import {
   SignupFormData,
-  SocialLoginData,
   UserProfile,
   AuthSession,
-  UserRole,
 } from '@/core/domain/entities/AuthUser';
 
 /**

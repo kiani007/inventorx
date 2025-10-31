@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { MainLayout } from '@/presentation/templates';
-import { Text, Button } from '@/presentation/atoms';
+import { Text, Button, SectionLoader } from '@/presentation/atoms';
 import { Card, SearchBar } from '@/presentation/molecules';
 import { MockProductRepository } from '@/infrastructure/repositories/MockProductRepository';
 import { GetAllProductsUseCase } from '@/core/usecases/product/GetAllProducts';
@@ -138,11 +138,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           {loading ? (
-            <div className="text-center py-8">
-              <Text variant="body" color="secondary">
-                Loading products...
-              </Text>
-            </div>
+            <SectionLoader message="Loading products..." height={300} />
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredProducts.map((product) => (

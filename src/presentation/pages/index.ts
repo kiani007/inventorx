@@ -8,6 +8,7 @@ export { LuxuryHomePage } from './LuxuryHomePage/LuxuryHomePage';
 
 // Auth pages
 export { SignupPage } from './SignupPage/SignupPage';
+export { LoginPage } from './LoginPage/LoginPage';
 export { VerifyEmailPage } from './VerifyEmailPage/VerifyEmailPage';
 export { CompleteProfilePage } from './CompleteProfilePage/CompleteProfilePage';
 export { OAuthProfileSetupPage } from './OAuthProfileSetupPage/OAuthProfileSetupPage';

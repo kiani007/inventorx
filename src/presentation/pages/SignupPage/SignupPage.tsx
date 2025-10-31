@@ -7,8 +7,8 @@ import { EmailVerification } from '@/presentation/organisms/EmailVerification/Em
 import { SignupFormData } from '@/core/domain/entities/AuthUser';
 import { SupabaseAuthRepository } from '@/infrastructure/repositories/SupabaseAuthRepository';
 import { SignUpWithEmail, SignUpWithSocial } from '@/core/usecases/auth';
+import { BackLinkButton } from '@/presentation/atoms';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export const SignupPage: React.FC = () => {
@@ -116,13 +116,9 @@ export const SignupPage: React.FC = () => {
       {/* Content */}
       <div className="relative z-10 max-w-[1200px] mx-auto">
         {/* Back Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center space-x-2 text-[14px] text-[#666666] hover:text-[#D4AF37] transition-colors mb-8"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Home</span>
-        </Link>
+        <div className="mb-8">
+          <BackLinkButton href="/" label="Back to Home" className="text-[14px]" />
+        </div>
 
         {/* Header */}
         <div className="text-center mb-12">

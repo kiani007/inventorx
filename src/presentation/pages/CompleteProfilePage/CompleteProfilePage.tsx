@@ -6,7 +6,8 @@ import { retrievePendingSignup, clearPendingSignup } from '@/shared/services/pen
 import { SupabaseAuthRepository } from '@/infrastructure/repositories/SupabaseAuthRepository';
 import { CompleteProfileAfterVerification } from '@/core/usecases/auth';
 import { createClient } from '@/lib/supabase/client';
-import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
+import { ButtonLoader } from '@/presentation/atoms';
 import toast from 'react-hot-toast';
 
 /**
@@ -140,7 +141,7 @@ export const CompleteProfilePage: React.FC = () => {
           <div className="flex justify-center">
             {status === 'loading' && (
               <div className="w-24 h-24 rounded-full bg-[#D4AF37]/10 flex items-center justify-center">
-                <Loader2 size={48} className="text-[#D4AF37] animate-spin" />
+                <div className="w-12 h-12 border-4 border-[#D4AF37]/20 border-t-[#D4AF37] rounded-full animate-spin" />
               </div>
             )}
             {status === 'success' && (
@@ -201,7 +202,7 @@ export const CompleteProfilePage: React.FC = () => {
           {/* Success indicator */}
           {status === 'success' && (
             <div className="inline-flex items-center space-x-2 text-sm text-gray-500">
-              <Loader2 size={16} className="animate-spin" />
+              <ButtonLoader size="sm" />
               <span>Redirecting to dashboard...</span>
             </div>
           )}

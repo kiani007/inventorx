@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/shared/utils/cn';
 import { Input, InputProps } from '@/presentation/atoms/Input/Input';
 
 export interface PhoneInputProps extends Omit<InputProps, 'type' | 'onChange'> {
