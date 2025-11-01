@@ -30,7 +30,7 @@ const defaultFooterLinks = {
     { label: 'Press', href: '#' },
   ],
   resources: [
-    { label: 'Blog', href: '#' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Help Center', href: '#' },
     { label: 'Guidelines', href: '#' },
     { label: 'API Docs', href: '#' },
@@ -44,15 +44,6 @@ const defaultFooterLinks = {
 };
 
 export const LuxuryFooter: React.FC<LuxuryFooterProps> = ({ sections }) => {
-  // Convert sections prop to footerLinks format or use default
-  const footerLinks = sections
-    ? sections.reduce((acc, section) => {
-        const key = section.title.toLowerCase().replace(/\s+/g, '');
-        acc[key] = section.links;
-        return acc;
-      }, {} as Record<string, { label: string; href: string }[]>)
-    : defaultFooterLinks;
-
   const footerSections = sections || [
     { title: 'Platform', links: defaultFooterLinks.platform },
     { title: 'Features', links: defaultFooterLinks.features },

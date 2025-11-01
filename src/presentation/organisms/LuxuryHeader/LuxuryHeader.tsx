@@ -13,7 +13,7 @@ export const LuxuryHeader: React.FC<LuxuryHeaderProps> = ({ navigation }) => {
     { label: 'Homepage', href: '/' },
     { label: 'Marketplace', href: '/marketplace' },
     { label: 'Auctions', href: '/marketplace?view=auctions' },
-    { label: 'Blog', href: '#' },
+    { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
     { label: 'Investors', href: '/investors' },

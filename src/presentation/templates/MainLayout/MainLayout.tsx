@@ -25,6 +25,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     { label: 'Home', href: '/' },
     { label: 'Projects', href: '/marketplace' },
     { label: 'Auctions', href: '/marketplace?view=auctions' },
+    { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];

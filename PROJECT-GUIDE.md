@@ -219,6 +219,13 @@ import { Alert } from '@/presentation/atoms';
 - `GetCurrentUser` - Get logged-in user
 - `CompleteProfileAfterVerification` - Profile completion
 
+### Blog Use Cases
+- `GetAllBlogPosts` - Get all posts with filters
+- `GetBlogPostBySlug` - Get single post
+- `GetFeaturedBlogPosts` - Get featured posts
+- `GetRelatedBlogPosts` - Get related posts
+- `GetBlogCategories` - Get all categories
+
 ### Usage
 ```tsx
 import { SignInWithEmail } from '@/core/usecases/auth';
@@ -245,10 +252,12 @@ const result = await signInUseCase.execute(email, password);
 ### Public
 - `/` - Homepage
 - `/marketplace` - Browse projects
+- `/blog` - Blog listing
 - `/about` - About page
 - `/contact` - Contact page
 - `/signup` - Sign up
 - `/login` - Login
+- `/studio` - Sanity Studio (CMS)
 
 ### Protected (Auth Required)
 - `/dashboard` - User dashboard
@@ -282,8 +291,9 @@ npm run lint
 
 ## 📦 Key Dependencies
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Database/Auth**: Supabase
+- **CMS**: Sanity v4 (with @sanity/code-input)
 - **Forms**: React Hook Form
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
@@ -356,6 +366,55 @@ npm run lint
 - Gold gradient theme
 - Consistent styling
 - Responsive layouts
+
+✅ **Blog System**
+- Sanity CMS integration
+- Blog listing and detail pages
+- ISR with 1-hour revalidation
+- Mock data repository included
+
+---
+
+## 📝 Blog System
+
+### Routes
+- `/blog` - Blog listing page
+- `/blog/[slug]` - Individual blog post
+- `/studio` - Sanity Studio (embedded)
+
+### Key Files
+- **Entities**: `src/core/domain/entities/BlogPost.ts`, `BlogAuthor.ts`, `BlogCategory.ts`
+- **Repository**: `src/infrastructure/repositories/MockBlogRepository.ts` (dev) or `SanityBlogRepository.ts` (prod)
+- **Use Cases**: `src/core/usecases/blog/`
+- **Pages**: `src/presentation/pages/BlogListingPage/`, `BlogDetailPage/`
+- **Schemas**: `sanity/schemas/blogPost.ts`, `blogAuthor.ts`, `blogCategory.ts`
+- **Config**: `sanity.config.ts`, `sanity.cli.ts`
+
+### Implementation Notes
+
+**Important differences from original plan:**
+- Studio is **embedded at `/studio`** route (not separate folder)
+- Schemas in both `sanity/schemas/` and `sanity/schemaTypes/`
+- Uses **React 19** with `'use client'` directive for Studio
+- Code blocks require `@sanity/code-input` plugin (already installed)
+
+### Usage
+
+**Switch repositories:**
+```tsx
+// Mock (default)
+import { MockBlogRepository } from '@/infrastructure/repositories/MockBlogRepository';
+
+// Sanity (production)
+import { SanityBlogRepository } from '@/infrastructure/repositories/SanityBlogRepository';
+```
+
+**Environment variables:**
+```bash
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+REVALIDATION_SECRET=your_secret  # For webhooks
+```
 
 ---
 
